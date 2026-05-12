@@ -1,3 +1,8 @@
+"""
+OathGate Framework
+Created by Bryan Wheeland
+Copyright (c) 2026
+"""
 from dataclasses import dataclass
 from typing import Literal
 
