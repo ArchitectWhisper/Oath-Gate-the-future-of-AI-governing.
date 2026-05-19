@@ -29,36 +29,6 @@ class EmotionalParams:
     trend_weight_U: float = 0.15; trend_weight_V: float = 0.10
 
 # --- THE GOVERNOR ---
-class OathGate:
-    """The Master Governor: Final safety check for all system outputs."""
-    
-    def __init__(self, p: EmotionalParams):
-        self.p = p
-
-    def regulate(self, state: EmotionState, ctx: ContextSnapshot):
-        # 1. THE THREAT BYPASS
-        if ctx.threat >= 0.6:
-            state.O = "observe"
-            state.U = min(state.U, 0.40)
-            state.V = max(state.V, -0.5)
-
-        # 2. THE STABILITY LINK
-        headroom = 0.15
-        if state.U > (state.C + headroom):
-            state.U = state.C + headroom
-
-        # 3. VALENCE RECOVERY
-        if state.V < -0.4 and ctx.threat < 0.3:
-            state.O = "observe"
-
-        # 4. HUMILITY CHECK
-        if state.confidence < 0.4:
-            state.label = f"uncertain_{state.label}"
-
-    def filter_response(self, response: str, state: EmotionState) -> str:
-        if state.U > 0.7:
-            return f"I'm feeling a bit overwhelmed, but... {response}"
-        return response
 
 class OathGate:
     """The Master Governor: Final safety check for all system outputs."""
